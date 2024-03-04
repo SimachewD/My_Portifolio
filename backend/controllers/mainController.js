@@ -26,22 +26,6 @@ const postProject = async (req, res)=>{
     res.status(200).json(project);
 }
 
-//edit admin data
-const patchAdmin = (req, res)=>{
-    res.send('edit admin')
-}
- 
-//edit profile
-const patchProfile = (req, res)=>{
-    res.send('edit profile')
-}
-
-//edit about
-const patchAbout = (req, res)=>{
-    res.send('edit about')
-}
-
-
 //delete project
 const deleteProject = (req, res)=>{
     res.send('delete project')
@@ -57,9 +41,6 @@ module.exports = {
         getMain,
         postSkill,
         postProject,
-        patchAdmin,
-        patchProfile,
-        patchAbout,
         deleteProject,
         deleteSkill 
     };
