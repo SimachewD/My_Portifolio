@@ -1,38 +1,67 @@
-
+import { useEffect, useState } from 'react';
+import bs5  from '../img/bg-img.jpg';
 
 const Home = () => {
-    return ( 
-        <div class="container mx-auto rounded-lg shadow-lg sm:px-12 px-4 py-24 bg-white min-h-screen flex flex-col" id="home" >
-            <section class="text-center">
-                <h1 class="text-4xl font-bold mb-4">Welcome to My Portfolio</h1>
-                <p class="text-lg text-gray-700">I am a passionate developer ready to take on new challenges.</p>
+    const [projects, setProjects] = useState([]);
+
+    const fetchProjects = async () => {
+        try {
+            const response = await fetch("http://localhost:10000/sime/api/");
+            const json = await response.json();
+
+            if (response.ok) {
+                const projectsData = json.projects;
+                setProjects(projectsData);
+            } else {
+                console.error("Failed to fetch projects:", json);
+            }
+        } catch (error) {
+            console.error("Fetch error:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchProjects();
+    }, []);
+
+    return (
+        <div className="container mx-auto rounded-lg shadow-lg sm:px-12 px-4 py-24 bg-white min-h-screen flex flex-col" id="home">
+            <section className=" mb-32">
+                <h1 className="text-4xl font-bold mb-4 ">Hi,</h1>
+                <h1 className='text-6xl font-bold mb-4'>I am <span className='text-blue-700'>Simachew Denekew</span></h1>
+                <p className="text-xl text-gray-700">a passionate FullStack developer ready to take on new challenges.</p>
+                <i className=" ml-48">Graduated from <span className=' text-blue-700'>Bahir Dar Institute of Technology</span> - Software Engineering</i>
             </section>
 
-            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-24">
-                <div class="bg-white rounded-lg shadow-md p-4">
-                    <h3 class="text-xl font-semibold mb-2">Project 1</h3>
-                    <p class="text-gray-700">This is a description of Project 1.</p>
-                </div>
-                <div class="bg-white rounded-lg shadow-md p-4">
-                    <h3 class="text-xl font-semibold mb-2">Project 2</h3>
-                    <p class="text-gray-700">This is a description of Project 2.</p>
-                </div>
-                <div class="bg-white rounded-lg shadow-md p-4">
-                    <h3 class="text-xl font-semibold mb-2">Project 3</h3>
-                    <p class="text-gray-700">This is a description of Project 3.</p>
-                </div>
+            <h2 className="text-center text-2xl font-semibold mb-4">My Projects</h2>
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+                {projects && (
+                    projects.map(project => (
+                        <div key={project._id} className="bg-white rounded-lg shadow-md p-4">
+                            <img src={bs5} className='w-full h-16 mb-2' alt='project_image' />
+                            <div>
+                                <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+                                <p className="text-gray-700">{project.description}</p>
+                            </div>
+                        </div>
+                    ))
+                )} 
             </section>
 
-            <section class="mt-8">
-                <h2 class="text-2xl font-semibold mb-2">Contact Me</h2>
-                <p class="text-gray-700">Feel free to get in touch with me.</p>
-                <div class="mt-4">
-                    <a href="#contact" class="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600">Contact</a>
+            { projects.length===0 ? (
+                <h1 className="text-center mb-8">There are no projects at the moment</h1>
+            ): null}
+
+
+            <section className="mt-8">
+                <h2 className="text-2xl font-semibold mb-2">Contact Me</h2>
+                <p className="text-gray-700">Feel free to get in touch with me.</p>
+                <div className="mt-4">
+                    <a href="#contact" className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600">Contact</a>
                 </div>
             </section>
         </div>
-
     );
-}
- 
+};
+
 export default Home;

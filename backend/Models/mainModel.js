@@ -20,10 +20,12 @@ const skillSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        unique: true
+    },
+    description: {
+        type: String,
     },
     iconUrl: String,
-}); 
+});  
 
 // Define schema for comments
 const commentSchema = new mongoose.Schema({

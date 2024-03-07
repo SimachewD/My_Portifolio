@@ -1,10 +1,15 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 require('dotenv').config();
 
 const app = express();
+
+
+app.use(cors({ origin: 'http://localhost:3000' }));
+
 
 mongoose.connect(process.env.MONGO_URI).then((conn)=>{
 
@@ -24,5 +29,5 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
  
 //handling routes
-app.use(require('./routes/main'))      
-app.use(require('./routes/user'))      
+app.use('/sime/api', require('./routes/main'))      
+app.use('/sime/api', require('./routes/user'))      

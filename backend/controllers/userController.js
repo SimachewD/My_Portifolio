@@ -47,11 +47,9 @@ const patchAbout = (req, res)=>{
 }
 
 
-
-
 module.exports = {
     patchAdmin,
     patchProfile,
-    patchAbout,
-    // createAdmin
-};
+    patchAbout,  
+    //createAdmin
+}; 
