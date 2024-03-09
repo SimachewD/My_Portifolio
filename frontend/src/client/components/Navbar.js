@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import profile from '../img/profile.jpg';
+import profile from '../../img/profile.jpg';
 import { FaGithub, FaLinkedinIn, FaBars, FaHome, FaAddressCard, FaCode, FaEnvelope } from 'react-icons/fa';
 
 const Navbar = () => {

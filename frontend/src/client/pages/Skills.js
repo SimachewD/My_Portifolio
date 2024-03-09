@@ -30,7 +30,7 @@ const Skills = () => {
     return (
         <div className="container mx-auto pt-8" id="skills">
             <div className="bg-white rounded-lg shadow-lg p-4 sm:p-12">
-                <h2 className="text-center text-2xl font-bold mb-8">Skills & Abilities</h2>
+                <h2 className="text-center text-2xl font-bold mb-8 text-blue-700">Skills & Abilities</h2>
 
                 <div className="container mx-auto">
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

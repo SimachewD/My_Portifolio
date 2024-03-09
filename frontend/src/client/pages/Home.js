@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import bs5  from '../img/bg-img.jpg';
+import bs5  from '../../img/bg-img.jpg';
 
 const Home = () => {
     const [projects, setProjects] = useState([]);
@@ -33,7 +33,7 @@ const Home = () => {
                 <i className=" ml-48">Graduated from <span className=' text-blue-700'>Bahir Dar Institute of Technology</span> - Software Engineering</i>
             </section>
 
-            <h2 className="text-center text-2xl font-semibold mb-4">My Projects</h2>
+            <h2 className="text-center text-2xl font-semibold mb-4 text-blue-700">My Projects</h2>
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
                 {projects && (
                     projects.map(project => (
@@ -49,7 +49,7 @@ const Home = () => {
             </section>
 
             { projects.length===0 ? (
-                <h1 className="text-center mb-8">There are no projects at the moment</h1>
+                <h1 className="text-center mb-8 text-red-600">There are no projects at the moment</h1>
             ): null}
 
 
