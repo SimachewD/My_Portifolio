@@ -1,6 +1,6 @@
 
 
-const { adminModel, profileModel, aboutModel } = require("../Models/userModel");
+const { adminModel, profileModel, aboutModel, messageModel } = require("../Models/userModel");
 
 
 // //Admin
@@ -47,9 +47,25 @@ const patchAbout = (req, res)=>{
 }
 
 
+
+//add new message
+const postMessage = (req, res)=>{
+
+  const { email, phone, subject, message } = req.body;
+
+  messageModel.create({ email, phone, subject, message }).then((message)=>{
+      res.status(200).json(message);
+  }).catch((err)=>{
+      res.status(404).json(err.message);
+  });
+}
+
+
+
 module.exports = {
     patchAdmin,
     patchProfile,
-    patchAbout,  
+    patchAbout,
+    postMessage  
     //createAdmin
 }; 

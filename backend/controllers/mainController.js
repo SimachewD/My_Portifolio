@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose");
 const { skillModel, projectModel } = require("../Models/mainModel");
-const { profileModel, aboutModel } = require("../Models/userModel");
+const { profileModel, aboutModel, messageModel } = require("../Models/userModel");
 
 //fetch all data
 const getMain = async (req, res)=>{
@@ -11,7 +11,9 @@ const getMain = async (req, res)=>{
     const projects = await projectModel.find({}).sort({createdAt: -1});
     const profile = await profileModel.find({});
     const about = await aboutModel.find({});
-    const data = {skills, projects, profile, about};
+    const messages = await messageModel.find({});
+
+    const data = {skills, projects, profile, about, messages};
     res.status(200).json(data);
 } 
 

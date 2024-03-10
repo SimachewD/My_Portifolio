@@ -37,8 +37,8 @@ const Home = () => {
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
                 {projects && (
                     projects.map(project => (
-                        <div key={project._id} className="bg-white rounded-lg shadow-md p-4">
-                            <img src={bs5} className='w-full h-16 mb-2' alt='project_image' />
+                        <div key={project._id} className="bg-white rounded-lg shadow-md p-2">
+                            <img src={bs5} className='w-full h-48 object-cover object-center mb-2' alt='project_image' />
                             <div>
                                 <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                                 <p className="text-gray-700">{project.description}</p>

@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react';
 import profilePic from '../../img/profile.jpg';
 
 const AdminDashboard = () => {
-  const [totalProjects, setTotalProjects] = useState([]);
-  const [totalSkills, setTotalSkills] = useState([]);
-  const [totalMessages, setTotalMessages] = useState([]);
+  const [totalData, setTotalData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -12,17 +10,15 @@ const AdminDashboard = () => {
     try {
       const response = await fetch("http://localhost:10000/sime/api/");
       if (response.ok) {
-        const { projects, skills, messages } = await response.json();
-        setTotalProjects(projects);
-        setTotalSkills(skills);
-        setTotalMessages(messages);
+        const data = await response.json();
+        setTotalData(data);
       } else {
-        setError("Failed to fetch data");
+          setError("Failed to fetch data");
       }
     } catch (error) {
-      setError("Failed to fetch data:::::>>>>>>>" + error);
+        setError("Failed to fetch data:::::>>>>>>>" + error);
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
   };
 
@@ -34,8 +30,8 @@ const AdminDashboard = () => {
     // Handle profile editing functionality here
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p className='text-center text-3xl'>Loading...</p>;
+  if (error) return <p className='text-center text-3xl'>Error: {error}</p>;
 
   return (
     <div className="container mx-auto mt-8">
@@ -56,15 +52,15 @@ const AdminDashboard = () => {
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-blue-200 rounded-lg p-4">
             <h2 className="text-lg font-semibold mb-2">Total Projects</h2>
-            <p className="text-xl">{totalProjects.length}</p>
+            <p className="text-xl">{totalData.projects.length}</p>
           </div>
           <div className="bg-green-200 rounded-lg p-4">
             <h2 className="text-lg font-semibold mb-2">Total Skills</h2>
-            <p className="text-xl">{totalSkills.length}</p>
+            <p className="text-xl">{totalData.skills.length}</p>
           </div>
           <div className="bg-yellow-200 rounded-lg p-4">
             <h2 className="text-lg font-semibold mb-2">Total Messages</h2>
-            <p className="text-xl">{totalMessages.length}</p>
+            <p className="text-xl">{totalData.messages.length}</p>
           </div>
           <div className="bg-pink-200 rounded-lg p-4">
             <h2 className="text-lg font-semibold mb-2">About Me</h2>
@@ -74,6 +70,6 @@ const AdminDashboard = () => {
       </div>
     </div>
   );
-};
+}
 
 export default AdminDashboard;

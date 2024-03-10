@@ -40,6 +40,24 @@ const aboutSchema = new mongoose.Schema({
     }
 });
 
+// Define schema for Messages
+const messageSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
+    },
+    subject: {
+        type: String,
+        required: true,
+    },
+    message: { 
+        type: String,
+        required: true
+    }
+});
 
 
 // Define schema for admin
@@ -58,6 +76,7 @@ const adminSchema = new mongoose.Schema({
 // Create models based on schemas
 const profileModel = mongoose.model('Profile', profileSchema);
 const aboutModel = mongoose.model('About', aboutSchema);
+const messageModel = mongoose.model('Message', messageSchema);
 const adminModel = mongoose.model('Admin', adminSchema);
 
-module.exports = { adminModel, profileModel, aboutModel };
+module.exports = { adminModel, profileModel, aboutModel, messageModel };
