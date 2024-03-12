@@ -1,4 +1,8 @@
+
+
 import { useState, useEffect } from 'react';
+
+import { FaPen } from 'react-icons/fa';
 
 const AboutMe = () => {
   const [aboutMe, setAboutMe] = useState({});
@@ -67,7 +71,9 @@ const AboutMe = () => {
         key !== '_id' && key !== '__v' && (
           <div key={key} className="bg-white rounded-lg overflow-hidden shadow-md mb-4 md:mx-auto md:w-2/3">
             <div className="px-6 py-4">
-              <h2 className="text-3xl text-center mb-12 text-blue-700 font-bold">{key}</h2>
+              <div className='flex justify-between mb-12'><h2 className="text-3xl text-center text-blue-700 font-bold">{key}</h2><i onClick={() => toggleEditForm(key)} className="hover:bg-blue-300 hover:cursor-pointer font-bold py-2 px-4 rounded">
+                    <FaPen />
+                  </i></div>
               {editForms[key] ? (
                 <form className="text-center" onSubmit={(e) => { e.preventDefault(); handleFormSubmit(key); }}>
                   <textarea 
@@ -86,11 +92,8 @@ const AboutMe = () => {
                   </div>
                 </form>
               ) : (
-                <div className='flex flex-col lg:flex-row justify-center lg:justify-between'>
-                  <p className="text-center lg:text-left text-gray-700 text-base mb-4 lg:mb-0">{aboutMe[key]}</p>
-                  <button onClick={() => toggleEditForm(key)} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 lg:mt-0">
-                    Edit
-                  </button>
+                <div className=''>
+                  <p className="lg:text-left text-gray-700 text-base mb-4">{aboutMe[key]}</p>
                 </div>
               )}
             </div>

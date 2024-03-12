@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import profile from '../../img/profile.jpg';
 
 
 const About = () => {
@@ -31,7 +32,7 @@ const About = () => {
             <div className="bg-white rounded-lg shadow-lg p-4 sm:p-12">
                 <h2 className="text-center text-2xl font-semibold mb-4 text-blue-700">About Me</h2>
                 <div className="flex items-center mb-4 border-b-2 rounded-s-lg p-3 ">
-                    <img className="w-12 h-12 rounded-full mr-4" src="https://via.placeholder.com/150" alt="Profile" />
+                    <img className="w-12 h-12 rounded-full mr-4" src={profile} alt="Profile" />
                     <div>
                         <h3 className="text-lg font-semibold">Simachew Denekew</h3>
                         <p className="text-gray-600">FullStack Developer</p>

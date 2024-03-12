@@ -2,7 +2,7 @@
 const express = require('express')
 
 const {
-        patchAdmin,
+        changePassword,
         patchProfile,
         patchAbout,
         postMessage, 
@@ -10,15 +10,15 @@ const {
 
 const router = express.Router()
 
-// router.patch( '/createadmin', createAdmin)
+// router.post( '/createadmin', createAdmin)
 
-router.patch( '/updateadmin', patchAdmin)
+router.patch( '/admin/changepassword', changePassword)
 
-router.patch( '/updateprofile', patchProfile)
+router.patch( '/admin/updateprofile', patchProfile)
+ 
+router.patch( '/admin/updateabout', patchAbout)
 
-router.patch( '/updateabout', patchAbout)
-
-router.post( '/postmessage', postMessage)
+router.post( '/admin/postmessage', postMessage)
 
 module.exports = router;
  

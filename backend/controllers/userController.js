@@ -1,4 +1,5 @@
 
+const bcrypt = require('bcrypt');
 
 const { adminModel, profileModel, aboutModel, messageModel } = require("../Models/userModel");
 
@@ -8,23 +9,37 @@ const { adminModel, profileModel, aboutModel, messageModel } = require("../Model
 
 //     const { email, password } = req.body;
 
-//     const admin = await adminModel.create({email, password});
-//     res.status(200).json(admin);
+
+//     const salt = await bcrypt.genSalt(10);
+//     const hash = await bcrypt.hash(password, salt);
+//     const user = await adminModel.create({email, password: hash});
+
+//     res.status(200).json(user);
 // }
 
 
 
 //edit admin data
-const patchAdmin = (req, res)=>{
+const changePassword = async (req, res)=>{
 
-    adminModel.findOneAndUpdate( {}, { ...req.body }, { new: true }).then((updatedAdmin) => {
-        res.status(200).json({'Password updated successfully for admin:': updatedAdmin});
+  const { oldPassword, newPassword } = req.body;
+
+    const admin = await adminModel.findOne({});
+    const match = await bcrypt.compare(oldPassword, admin.password);
+
+    if (!match) {
+      return res.status(400).json({Error:'Wrong Password'});
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(newPassword, salt);
+    adminModel.findOneAndUpdate( {}, { password:hash }, { new: true }).then((updatedPassword) => {
+        res.status(200).json({Success:'Password Changed Successfully'});
       }).catch((err)=> {
         return res.status(404).json({'Error updating password:': err});
       });
 }
  
-
+ 
 //edit profile
 const patchProfile = (req, res)=>{
 
@@ -63,9 +78,9 @@ const postMessage = (req, res)=>{
 
 
 module.exports = {
-    patchAdmin,
+    changePassword,
     patchProfile,
     patchAbout,
-    postMessage  
-    //createAdmin
+    postMessage,  
+    // createAdmin
 }; 
