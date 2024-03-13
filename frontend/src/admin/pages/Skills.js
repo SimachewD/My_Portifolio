@@ -28,15 +28,15 @@ const AdminSkills = () => {
     }
   };
 
-  const handleDeleteProject = async (projectId) => {
+  const handleDeleteProject = async (skillId) => {
     try {
-      const response = await fetch(`http://localhost:10000/sime/api/projects/${projectId}`, {
+      const response = await fetch(`http://localhost:10000/sime/api/deleteskill/${skillId}`, {
         method: 'DELETE'
       });
       if (!response.ok) {
-        throw new Error('Failed to delete project');
+        throw new Error('Failed to delete skill');
       }
-      setSkills(skills.filter(project => project._id !== projectId));
+      setSkills(skills.filter(skill => skill._id !== skillId));
     } catch (error) {
       setError(error.message);
     }

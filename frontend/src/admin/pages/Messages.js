@@ -29,11 +29,11 @@ const Messages = () => {
 
   const handleDeleteProject = async (messageId) => {
     try {
-      const response = await fetch(`http://localhost:10000/sime/api/messages/${messageId}`, {
+      const response = await fetch(`http://localhost:10000/sime/api/deletemessage/${messageId}`, {
         method: 'DELETE'
       });
       if (!response.ok) {
-        throw new Error('Failed to delete project');
+        throw new Error('Failed to delete message');
       }
       setMessages(messages.filter(message => message._id !== messageId));
     } catch (error) {

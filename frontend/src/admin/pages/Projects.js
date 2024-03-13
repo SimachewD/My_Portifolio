@@ -4,13 +4,26 @@ import { useState, useEffect } from 'react';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
-  const [newProject, setNewProject] = useState({ title: '', description: '', imageUrl: '' });
+  const [newProject, setNewProject] = useState({ title: '', description: '', imageFile: null });  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchProjects();
   }, []);
+
+
+
+  const handleFileChange = (event) => {
+    setNewProject({
+      ...newProject,
+      imageFile: event.target.files[0], // Store the selected file in state
+    });
+  };
+
+
+
+
 
   const fetchProjects = async () => {
     try {
@@ -30,7 +43,7 @@ const Projects = () => {
 
   const handleDeleteProject = async (projectId) => {
     try {
-      const response = await fetch(`http://localhost:10000/sime/api/projects/${projectId}`, {
+      const response = await fetch(`http://localhost:10000/sime/api/deleteproject/${projectId}`, {
         method: 'DELETE'
       });
       if (!response.ok) {
@@ -42,36 +55,55 @@ const Projects = () => {
     }
   };
 
-  const handleAddProject = async () => {
+  const handleAddProject = async (event) => {
+    event.preventDefault();
+  
+    // Check if title and description are provided
+    // if (!newProject.title || !newProject.description) {
+    //   setError('Title and description are required');
+    //   return;
+    // }
+  
+    // // Check if an image file is provided
+    // if (!newProject.imageFile) {
+    //   setError('Please select an image file');
+    //   return;
+    // }
+  
+    // Create a new FormData object
+    const formData = new FormData();
+    formData.append('title', newProject.title);
+    formData.append('description', newProject.description);
+    formData.append('image', newProject.imageFile);
+  
     try {
-      const response = await fetch(`http://localhost:10000/sime/api/projects`, {
+      const response = await fetch(`http://localhost:10000/sime/api/addproject`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newProject)
+        body: formData,
       });
       if (!response.ok) {
         throw new Error('Failed to add project');
       }
       const newProjectData = await response.json();
       setProjects([...projects, newProjectData]);
-      setNewProject({ title: '', description: '', imageUrl: '' });
+      setNewProject({ title: '', description: '', imageFile: null });
+      setError(null); // Clear error state
     } catch (error) {
       setError(error.message);
     }
   };
+  
 
   if (loading) return <p className='text-center text-3xl'>Loading...</p>;
-  if (error) return <p className='text-center text-3xl'>Error: {error}</p>;
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-24 pt-8">
       <h2 className="text-3xl text-center mb-8 text-blue-700 font-bold">Projects</h2>
+      { error &&  <p className='text-center my-12 text-red-600 text-3xl'>Error: {error}</p> }
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {projects.map(project => (
           <div key={project._id} className="bg-white rounded-lg overflow-hidden shadow-md">
-            <img className="w-full h-48 object-cover object-center" src={project.imageUrl} alt={project.title} />
+            <img className="w-full h-48 object-cover object-center" src={"http://localhost:10000/uploads/" + project.imageUrl} alt={project.title} />
             <div className="px-6 py-4">
               <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
               <p className="text-gray-700 text-base">{project.description}</p>
@@ -113,16 +145,15 @@ const Projects = () => {
           ></textarea>
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="imageUrl">
-            Image URL:
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
+            Image:
           </label>
           <input
-            id="imageUrl"
-            type="text"
-            value={newProject.imageUrl}
-            onChange={(e) => setNewProject({ ...newProject, imageUrl: e.target.value })}
-            className="form-input mt-1 block w-full h-12"
-            placeholder="Enter image URL"
+            id="image"
+            type="file"
+            accept="image/*" // Only allow image files
+            onChange={handleFileChange}
+            className="form-input mt-1 block w-full"
           />
         </div>
         <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
