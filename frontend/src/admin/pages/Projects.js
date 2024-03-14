@@ -7,6 +7,7 @@ const Projects = () => {
   const [newProject, setNewProject] = useState({ title: '', description: '', imageFile: null });  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   useEffect(() => {
     fetchProjects();
@@ -87,6 +88,9 @@ const Projects = () => {
       const newProjectData = await response.json();
       setProjects([...projects, newProjectData]);
       setNewProject({ title: '', description: '', imageFile: null });
+      // Clear the file input field
+      document.getElementById('image').value = '';
+      setSuccess('Project added successfully');
       setError(null); // Clear error state
     } catch (error) {
       setError(error.message);
@@ -99,11 +103,11 @@ const Projects = () => {
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-24 pt-8">
       <h2 className="text-3xl text-center mb-8 text-blue-700 font-bold">Projects</h2>
-      { error &&  <p className='text-center my-12 text-red-600 text-3xl'>Error: {error}</p> }
+      { error &&  <div className='flex mx-auto border-2 border-red-900 max-w-fit p-2 mt-8 rounded-lg'><p className='text-red-600 text-3xl'>{error}</p> <span className='ml-5 text-red-600 text-5xl hover:cursor-pointer' onClick={()=>setError(null)}>X</span></div> }
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {projects.map(project => (
           <div key={project._id} className="bg-white rounded-lg overflow-hidden shadow-md">
-            <img className="w-full h-48 object-cover object-center" src={"http://localhost:10000/uploads/" + project.imageUrl} alt={project.title} />
+            <img className="w-full h-48 object-cover object-center" src={"http://localhost:10000/uploads/" + project.imageUrl} alt='project_image' />
             <div className="px-6 py-4">
               <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
               <p className="text-gray-700 text-base">{project.description}</p>
@@ -116,6 +120,7 @@ const Projects = () => {
           </div>
         ))}
       </div>
+      { success &&  <div className='flex mx-auto border-2 border-red-900 max-w-fit p-2 mt-8 rounded-lg'><p className='text-green-600 text-3xl'>{success}</p> <span className='ml-5 text-red-600 text-5xl hover:cursor-pointer' onClick={()=>setSuccess(null)}>X</span></div> }
       <h2 className="text-3xl text-center mt-8 mb-4">Add New Project</h2>
       <form onSubmit={handleAddProject} className="max-w-3xl mx-auto p-24 border-8 mb-8">
         <div className="mb-4">
@@ -127,8 +132,9 @@ const Projects = () => {
             type="text"
             value={newProject.title}
             onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
-            className="form-input mt-1 block w-full h-12"
+            className="form-input pl-2 mt-1 block w-full h-12"
             placeholder="Enter project title"
+            required
           />
         </div>
         <div className="mb-4">
@@ -139,9 +145,10 @@ const Projects = () => {
             id="description"
             value={newProject.description}
             onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
-            className="form-textarea mt-1 block w-full"
+            className="form-textarea pl-2 mt-1 block w-full"
             rows="3"
             placeholder="Enter project description"
+            required
           ></textarea>
         </div>
         <div className="mb-4">
@@ -154,6 +161,7 @@ const Projects = () => {
             accept="image/*" // Only allow image files
             onChange={handleFileChange}
             className="form-input mt-1 block w-full"
+            required
           />
         </div>
         <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">

@@ -1,13 +1,14 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
+const path = require('path');
 const cors = require('cors');
 
 require('dotenv').config();
 
 const app = express();
 
-app.use('/uploads', express.static('backend/uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
 
 app.use(cors({ origin: 'http://localhost:3000' }));
 

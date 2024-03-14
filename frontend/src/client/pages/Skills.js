@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { FaCss3, FaHtml5, FaNodeJs } from "react-icons/fa";
+import { FaHtml5, FaCss3, FaReact, FaBootstrap, FaPhp, FaNodeJs, FaGit, FaJava } from 'react-icons/fa'; // Import additional icons
 
 const Skills = () => {
-
-
     const [skills, setSkills] = useState([]);
 
     const fetchSkills = async () => {
@@ -26,6 +24,28 @@ const Skills = () => {
         fetchSkills();
     }, []);
 
+    const renderIcon = (iconUrl) => {
+        switch (iconUrl) {
+            case "FaHtml5":
+                return <FaHtml5 />;
+            case "FaCss3":
+                return <FaCss3 />;
+            case "FaReact":
+                return <FaReact />;
+            case "FaBootstrap":
+                return <FaBootstrap />;
+            case "FaPhp":
+                return <FaPhp />;
+            case "FaNodeJs":
+                return <FaNodeJs />;
+            case "FaGit":
+                return <FaGit />;
+            case "FaJava":
+                return <FaJava />;
+            default:
+                return null;
+        }
+    };
 
     return (
         <div className="container mx-auto pt-8" id="skills">
@@ -34,8 +54,11 @@ const Skills = () => {
 
                 <div className="container mx-auto">
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {skills && skills.map(skill=>(
-                            <div key={skill._id} className="bg-slate-50 rounded-lg shadow-md p-6 flex items-center"><FaHtml5 className="w-8 h-8"/><p className="ml-5">{skill.title}</p></div>
+                        {skills && skills.map(skill => (
+                            <div key={skill._id} className="bg-slate-50 rounded-lg shadow-md p-6 flex items-center">
+                                {renderIcon(skill.iconUrl)}
+                                <p className="ml-5">{skill.title}</p>
+                            </div>
                         ))}
                     </div>
                 </div>

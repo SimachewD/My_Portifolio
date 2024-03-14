@@ -24,7 +24,7 @@ const AdminDashboard = () => {
         setError("Failed to fetch data");
       }
     } catch (error) {
-      setError("Failed to fetch data:::::>>>>>>>" + error);
+      setError("Failed to fetch data");
     } finally {
       setLoading(false);
     }
@@ -95,7 +95,7 @@ const AdminDashboard = () => {
         setPasswordError(json.Error);
       }
     } catch (error) {
-      setError("Failed to save password:::::>>>>>>>" + error);
+      setError("Failed to save password");
     }
 
     setNewPassword('');
@@ -104,7 +104,7 @@ const AdminDashboard = () => {
   };
 
   if (loading) return <p className='text-center text-3xl'>Loading...</p>;
-  if (error) return <p className='text-center text-3xl'>Error: {error}</p>;
+  if(error) return <div className='flex mx-auto border-2 border-red-900 max-w-fit p-2 mt-8 rounded-lg'><p className='text-red-600 text-3xl'>{error}</p></div>
 
   return (
     <div className="container mx-auto mt-8">

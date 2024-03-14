@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import bs5  from '../../img/bg-img.jpg';
 
 const Home = () => {
     const [projects, setProjects] = useState([]);
@@ -37,9 +36,9 @@ const Home = () => {
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
                 {projects && (
                     projects.map(project => (
-                        <div key={project._id} className="bg-white rounded-lg shadow-md p-2">
-                            <img src={bs5} className='w-full h-48 object-cover object-center mb-2' alt='project_image' />
-                            <div>
+                        <div key={project._id} className="bg-white rounded-lg overflow-hidden shadow-md">
+                            <img className="w-full h-48 object-cover object-center" src={"http://localhost:10000/uploads/" + project.imageUrl} alt='project_image' />
+                            <div className='px-6 py-8'>
                                 <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                                 <p className="text-gray-700">{project.description}</p>
                             </div>
