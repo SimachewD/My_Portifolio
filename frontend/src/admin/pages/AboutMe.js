@@ -46,8 +46,8 @@ const AboutMe = () => {
 
   const handleFormSubmit = async (key) => {
     try {
-      const response = await fetch(`http://localhost:10000/sime/api/about/${key}`, {
-        method: 'POST',
+      const response = await fetch(`http://localhost:10000/sime/api/admin/updateabout`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -66,7 +66,7 @@ const AboutMe = () => {
   if (error) return <p className='text-center text-3xl'>Error: {error}</p>;
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-24 pt-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-24 p-12">
       {Object.keys(aboutMe).map(key => (
         key !== '_id' && key !== '__v' && (
           <div key={key} className="bg-white rounded-lg overflow-hidden shadow-md mb-4 md:mx-auto md:w-2/3">

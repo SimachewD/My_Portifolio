@@ -43,8 +43,8 @@ const changePassword = async (req, res)=>{
 //edit profile
 const patchProfile = (req, res)=>{
 
-    profileModel.findOneAndUpdate( {}, { ...req.body }, { new: true }).then((updatedProfile) => {
-        res.status(200).json({'profile updated successfully for admin:': updatedProfile});
+    profileModel.findOneAndUpdate( {}, { ...req.body }, { new: true }).then(() => {
+        res.status(200).json({success:'profile updated successfully for admin'});
       }).catch((err)=> {
         return res.status(404).json({'Error updating profile:': err});
     });
@@ -54,8 +54,8 @@ const patchProfile = (req, res)=>{
 //edit about
 const patchAbout = (req, res)=>{
 
-    aboutModel.findOneAndUpdate( {}, { ...req.body }, { new: true }).then((updatedAbout) => {
-        res.status(200).json({'About me updated successfully for admin:': updatedAbout});
+    aboutModel.findOneAndUpdate( {}, { ...req.body }, { new: true }).then(() => {
+        res.status(200).json({success:'About me updated successfully for admin'});
       }).catch((err)=> {
         return res.status(404).json({'Error updating about me:': err});
     });
@@ -66,9 +66,7 @@ const patchAbout = (req, res)=>{
 //add new message
 const postMessage = (req, res)=>{
 
-  const { email, phone, subject, message } = req.body;
-
-  messageModel.create({ email, phone, subject, message }).then((message)=>{
+  messageModel.create({ ...req.body }).then((message)=>{
       res.status(200).json(message);
   }).catch((err)=>{
       res.status(404).json(err.message);

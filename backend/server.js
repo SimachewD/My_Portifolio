@@ -10,7 +10,12 @@ const app = express();
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
 
-app.use(cors({ origin: 'http://localhost:3000' }));
+const allowedOrigins = ['http://localhost:3000', 'http://192.168.0.146:3000'];
+
+app.use(cors({
+    origin: allowedOrigins,
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}));
 
 mongoose.connect(process.env.MONGO_URI).then((conn)=>{
 
