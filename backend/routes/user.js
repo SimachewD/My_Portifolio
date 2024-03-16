@@ -6,11 +6,11 @@ const {
         patchProfile,
         patchAbout,
         postMessage, 
-        createAdmin} = require('../controllers/userController')
+        login} = require('../controllers/userController')
 
 const router = express.Router()
 
-// router.post( '/createadmin', createAdmin)
+router.post( '/login', login)
 
 router.patch( '/admin/changepassword', changePassword)
 
@@ -18,7 +18,7 @@ router.patch( '/admin/updateprofile', patchProfile)
  
 router.patch( '/admin/updateabout', patchAbout)
 
-router.post( '/admin/postmessage', postMessage)
+router.post( '/postmessage', postMessage)
 
 module.exports = router;
  

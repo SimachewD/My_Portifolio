@@ -13,7 +13,7 @@ const Messages = () => {
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch("http://localhost:10000/sime/api/");
+      const response = await fetch("http://192.168.0.146:10000/sime/api/");
       if (!response.ok) {
         throw new Error('Failed to fetch projects');
       }
@@ -29,7 +29,7 @@ const Messages = () => {
 
   const handleDeleteProject = async (messageId) => {
     try {
-      const response = await fetch(`http://localhost:10000/sime/api/deletemessage/${messageId}`, {
+      const response = await fetch(`http://192.168.0.146:10000/sime/api/deletemessage/${messageId}`, {
         method: 'DELETE'
       });
       if (!response.ok) {

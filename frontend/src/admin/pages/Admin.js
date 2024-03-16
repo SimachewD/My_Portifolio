@@ -16,7 +16,7 @@ const AdminDashboard = () => {
 
   const countData = async () => {
     try {
-      const response = await fetch("http://localhost:10000/sime/api/");
+      const response = await fetch("http://192.168.0.146:10000/sime/api/");
       if (response.ok) {
         const data = await response.json();
         setTotalData(data);
@@ -79,7 +79,7 @@ const AdminDashboard = () => {
   const handleSubmitPassword = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:10000/sime/api/admin/changepassword", {
+      const response = await fetch("http://192.168.0.146:10000/sime/api/admin/changepassword", {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'

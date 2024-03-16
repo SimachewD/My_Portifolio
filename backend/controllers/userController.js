@@ -1,21 +1,39 @@
 
 const bcrypt = require('bcrypt');
+const validator = require('validator');
+const jwt = require('jsonwebtoken');
 
 const { adminModel, profileModel, aboutModel, messageModel } = require("../Models/userModel");
 
 
-// //Admin
-// const createAdmin = async (req, res)=>{
+//Admin
+const login = async (req, res)=>{
 
-//     const { email, password } = req.body;
+    const { email, password } = req.body;
 
+    if (!email || !password) {
+      return res.status(404).json({Error:'All Fields Must be Filled'});
+      // throw Error('All fields must be field');
+    }
 
-//     const salt = await bcrypt.genSalt(10);
-//     const hash = await bcrypt.hash(password, salt);
-//     const user = await adminModel.create({email, password: hash});
+    if (!validator.isEmail(email)) {
+      return res.status(400).json({Error:'Invalid Email'});
+      // throw Error('Invalid Email');
+    }
 
-//     res.status(200).json(user);
-// }
+    adminModel.findOne({email}).then(async (admin)=>{
+          const match = await bcrypt.compare(password, admin.password);
+          if (!match) {
+            return res.status(404).json({Error:'Wrong Password'});
+            // throw Error('Wrong password');
+          }
+          const token = jwt.sign({admin:admin._id}, process.env.SECRET, {expiresIn:'3d'});
+          res.status(200).json({email, token});
+    }).catch(()=>{
+      res.status(400).json({Error:'User Not Found'});
+      // throw Error('User not found');
+    });
+}
 
 
 
@@ -80,5 +98,5 @@ module.exports = {
     patchProfile,
     patchAbout,
     postMessage,  
-    // createAdmin
+    login
 }; 

@@ -14,7 +14,7 @@ const AdminSkills = () => {
 
   const fetchSkills = async () => {
     try {
-      const response = await fetch("http://localhost:10000/sime/api/");
+      const response = await fetch("http://192.168.0.146:10000/sime/api/");
       if (!response.ok) {
         throw new Error('Failed to fetch skills');
       }
@@ -30,7 +30,7 @@ const AdminSkills = () => {
 
   const handleDeleteSkill = async (skillId) => {
     try {
-      const response = await fetch(`http://localhost:10000/sime/api/deleteskill/${skillId}`, {
+      const response = await fetch(`http://192.168.0.146:10000/sime/api/deleteskill/${skillId}`, {
         method: 'DELETE'
       });
       if (!response.ok) {
@@ -45,7 +45,7 @@ const AdminSkills = () => {
   const handleAddSkill = async (e) => {
    e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:10000/sime/api/addskill`, {
+      const response = await fetch(`http://192.168.0.146:10000/sime/api/addskill`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

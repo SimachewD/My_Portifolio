@@ -1,6 +1,7 @@
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import Login from './admin/components/Login';
 import Footer from './client/components/Footer';
 import Navbar from './client/components/Navbar';
 import About from "./client/pages/About";
@@ -13,17 +14,20 @@ import AdminSkills from './admin/pages/Skills';
 import AboutMe from './admin/pages/AboutMe';
 import Messages from './admin/pages/Messages';
 import NavBar from './admin/components/NavBar';
+import { useAuthContext } from './admin/hooks/useAuthContext';
 
 
 function App() {
 
   const path = window.location.pathname;
 
+  const { user } = useAuthContext();
+
   return (
   <>  
     
     <BrowserRouter>
-    {path !== '/' && <NavBar />}
+      {path !== '/' && user ? <NavBar />:null}
       <Routes>
         <Route path='/' element={
               <div className="flex flex-col md:grid md:grid-cols-4 md:gap-4 bg-slate-50 ">
@@ -36,12 +40,13 @@ function App() {
                 </div>
                 <div className="col-span-3"><Footer /></div>
             </div>}  />
-         
-        <Route path='/admin' element={<AdminDashboard />} />
-        <Route path='/admin/projects' element={<Projects />} />
-        <Route path='/admin/skills' element={<AdminSkills />} />
-        <Route path='/admin/about' element={<AboutMe />} />
-        <Route path='/admin/messages' element={<Messages />} />
+
+
+          <Route path='/admin' element={ user ? <AdminDashboard />:<Login />} />
+          <Route path='/admin/projects' element={ user ? <Projects />:<Login />} />
+          <Route path='/admin/skills' element={ user ? <AdminSkills />:<Login />} />
+          <Route path='/admin/about' element={ user ? <AboutMe />:<Login />} />
+          <Route path='/admin/messages' element={ user ? <Messages />:<Login />} />
       </Routes>
     </BrowserRouter>
 

@@ -11,13 +11,19 @@ const Contact = () => {
     });
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+    
+        // If the field is 'phone', remove non-numeric characters
+        const numericValue = name === 'phone' ? value.replace(/\D/g, '') : value;
+    
+        setFormData({ ...formData, [name]: numericValue });
     };
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:10000/sime/api/admin/postmessage`, {
+            const response = await fetch(`http://192.168.0.146:10000/sime/api/postmessage`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

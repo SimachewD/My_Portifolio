@@ -6,7 +6,7 @@ const Skills = () => {
 
     const fetchSkills = async () => {
         try {
-            const response = await fetch("http://localhost:10000/sime/api/");
+            const response = await fetch("http://192.168.0.146:10000/sime/api/");
             const json = await response.json();
 
             if (response.ok) {
