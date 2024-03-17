@@ -1,6 +1,7 @@
 
 
 import { useState, useEffect } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -8,6 +9,8 @@ const Projects = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  const { user } = useAuthContext();
 
   useEffect(() => {
     fetchProjects();
@@ -28,7 +31,9 @@ const Projects = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch("http://192.168.0.146:10000/sime/api/");
+      const response = await fetch("http://192.168.0.146:10000/sime/api/",{
+        headers: { Authorization:`Bearer ${user.token}` },
+    });
       if (!response.ok) {
         throw new Error('Failed to fetch projects');
       }
@@ -45,7 +50,8 @@ const Projects = () => {
   const handleDeleteProject = async (projectId) => {
     try {
       const response = await fetch(`http://localhost:10000/sime/api/deleteproject/${projectId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: { Authorization:`Bearer ${user.token}` },
       });
       if (!response.ok) {
         throw new Error('Failed to delete project');
@@ -81,6 +87,7 @@ const Projects = () => {
       const response = await fetch(`http://192.168.0.146:10000/sime/api/addproject`, {
         method: 'POST',
         body: formData,
+        headers: { Authorization:`Bearer ${user.token}` },
       });
       if (!response.ok) {
         throw new Error('Failed to add project');

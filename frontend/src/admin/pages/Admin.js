@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import profilePic from '../../img/profile.jpg';
 import { FaPen } from 'react-icons/fa';
+import { useAuthContext } from '../hooks/useAuthContext';
+import { useLogin } from '../hooks/useLogin';
 
 const AdminDashboard = () => {
   const [totalData, setTotalData] = useState([]);
@@ -14,9 +16,16 @@ const AdminDashboard = () => {
   const [newPassword, setNewPassword] = useState('');
   const [oldPassword, setOldPassword] = useState('');
 
+  const { login } = useLogin();
+
+
+  const { user } = useAuthContext();
+
   const countData = async () => {
     try {
-      const response = await fetch("http://192.168.0.146:10000/sime/api/");
+      const response = await fetch("http://192.168.0.146:10000/sime/api/", {
+        headers: { Authorization:`Bearer ${user.token}` },
+    });
       if (response.ok) {
         const data = await response.json();
         setTotalData(data);
@@ -79,23 +88,24 @@ const AdminDashboard = () => {
   const handleSubmitPassword = async (e) => {
     e.preventDefault();
     try {
+      const email = user.email;
       const response = await fetch("http://192.168.0.146:10000/sime/api/admin/changepassword", {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ oldPassword, newPassword })
+        headers: { Authorization:`Bearer ${user.token}`,
+                  'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, oldPassword, newPassword })
       });
 
       const json = await response.json();
 
       if (response.ok) {
         setPasswordSuccess(json.Success);
+        await login(email, newPassword);
       } else {
         setPasswordError(json.Error);
       }
     } catch (error) {
-      setError("Failed to save password");
+      setPasswordError("Failed to save password");
     }
 
     setNewPassword('');

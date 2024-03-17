@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { FaHtml5, FaCss3, FaReact, FaBootstrap, FaPhp, FaNodeJs, FaGit, FaJava } from 'react-icons/fa'; // Import additional icons
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const AdminSkills = () => {
   const [skills, setSkills] = useState([]);
@@ -8,13 +9,17 @@ const AdminSkills = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const { user } = useAuthContext();
+
   useEffect(() => {
     fetchSkills();
   }, []);
 
   const fetchSkills = async () => {
     try {
-      const response = await fetch("http://192.168.0.146:10000/sime/api/");
+      const response = await fetch("http://192.168.0.146:10000/sime/api/", {
+        headers: { Authorization:`Bearer ${user.token}` },
+      });
       if (!response.ok) {
         throw new Error('Failed to fetch skills');
       }
@@ -31,7 +36,9 @@ const AdminSkills = () => {
   const handleDeleteSkill = async (skillId) => {
     try {
       const response = await fetch(`http://192.168.0.146:10000/sime/api/deleteskill/${skillId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: { Authorization:`Bearer ${user.token}` },
+
       });
       if (!response.ok) {
         throw new Error('Failed to delete skill');
@@ -47,9 +54,7 @@ const AdminSkills = () => {
     try {
       const response = await fetch(`http://192.168.0.146:10000/sime/api/addskill`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { Authorization:`Bearer ${user.token}` },
         body: JSON.stringify(newSkill)
       });
       if (!response.ok) {

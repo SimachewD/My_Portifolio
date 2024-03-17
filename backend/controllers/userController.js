@@ -35,14 +35,17 @@ const login = async (req, res)=>{
     });
 }
 
-
+ 
 
 //edit admin data
 const changePassword = async (req, res)=>{
 
-  const { oldPassword, newPassword } = req.body;
+  const { email, oldPassword, newPassword } = req.body;
+    const admin = await adminModel.findOne({email});
+    if (!admin) {
+      return res.status(400).json({Error:'User Not Found'});
+    }
 
-    const admin = await adminModel.findOne({});
     const match = await bcrypt.compare(oldPassword, admin.password);
 
     if (!match) {
@@ -50,12 +53,12 @@ const changePassword = async (req, res)=>{
     }
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(newPassword, salt);
-    adminModel.findOneAndUpdate( {}, { password:hash }, { new: true }).then((updatedPassword) => {
+    adminModel.findOneAndUpdate( {}, { password:hash }, { new: true }).then(() => {
         res.status(200).json({Success:'Password Changed Successfully'});
       }).catch((err)=> {
         return res.status(404).json({'Error updating password:': err});
       });
-}
+} 
  
  
 //edit profile

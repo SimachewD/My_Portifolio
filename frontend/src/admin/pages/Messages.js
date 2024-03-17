@@ -1,11 +1,14 @@
 
 
 import { useState, useEffect } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const { user } = useAuthContext();
 
   useEffect(() => {
     fetchMessages();
@@ -13,7 +16,9 @@ const Messages = () => {
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch("http://192.168.0.146:10000/sime/api/");
+      const response = await fetch("http://192.168.0.146:10000/sime/api/", {
+        headers: { Authorization:`Bearer ${user.token}` }}
+      );
       if (!response.ok) {
         throw new Error('Failed to fetch projects');
       }
@@ -30,7 +35,8 @@ const Messages = () => {
   const handleDeleteProject = async (messageId) => {
     try {
       const response = await fetch(`http://192.168.0.146:10000/sime/api/deletemessage/${messageId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: { Authorization:`Bearer ${user.token}` },
       });
       if (!response.ok) {
         throw new Error('Failed to delete message');

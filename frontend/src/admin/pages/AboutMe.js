@@ -1,6 +1,8 @@
 
 
 import { useState, useEffect } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
+
 
 import { FaPen } from 'react-icons/fa';
 
@@ -10,13 +12,18 @@ const AboutMe = () => {
   const [error, setError] = useState(null);
   const [editForms, setEditForms] = useState({});
 
+  const { user } = useAuthContext();
+
   useEffect(() => {
     fetchSections();
   }, []);
 
   const fetchSections = async () => {
     try {
-      const response = await fetch("http://192.168.0.146:10000/sime/api/");
+      const response = await fetch("http://192.168.0.146:10000/sime/api/", {
+        headers: { Authorization:`Bearer ${user.token}` },
+      });
+      
       if (!response.ok) {
         throw new Error('Failed to fetch about sections');
       }
@@ -48,9 +55,7 @@ const AboutMe = () => {
     try {
       const response = await fetch(`http://192.168.0.146:10000/sime/api/admin/updateabout`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { Authorization:`Bearer ${user.token}` },
         body: JSON.stringify({ [key]: aboutMe[key] }),
       });
       if (!response.ok) {
